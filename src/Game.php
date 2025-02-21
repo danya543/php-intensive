@@ -43,7 +43,6 @@ class Game
             'textMsg' => $this->textMsg,
             'lock' => $this->lock,
             'alphabet' => $this->alphabet,
-
         ];
     }
 
@@ -112,5 +111,7 @@ class Game
     public function spin()
     {
         $this->currentPoints = random_int(1, 10) * 100;
+        $_SERVER['currentPoints'] = $this->currentPoints;
+        $this->saveGame();
     }
 }

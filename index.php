@@ -16,7 +16,7 @@ $hasSuccess = false;
 
 $players = $game->players;
 $currentPlayer = $game->currentPlayer;
-$currentPlayer = $game->currentPoints;
+$currentPoints = $game->currentPoints;
 $openLetters = $game->openLetters;
 $alphabet = $game->alphabet;
 $lettersInWord = $game->wordAsLetters();
@@ -30,8 +30,8 @@ if (! empty($_POST)) {
             $hasError = true;
         }
     } else if (isset($_POST['spin'])) {
-        $canSpin = false;
         $game->spin();
+        $canSpin = false;
     } else if (isset($_POST['help'])) {
         $game->help();
     } else if (isset($_POST['restart'])) {
@@ -82,7 +82,7 @@ if (! empty($_POST)) {
         <div class="flex flex-col flex-1 justify-around">
             <div class="border flex justify-center class bg-white p-4 space-x-2 sm:space-x-4 text-3xl sm:text-4xl md:text-6xl">
                 <?php foreach ($lettersInWord as $letter) {
-                    if (in_array($letter, $_SESSION['openLetters'])) { ?>
+                    if (in_array($letter, $openLetters)) { ?>
                         <div class="word-cell border text-center"><?= $letter ?></div>
                     <?php } else {
                     ?>
@@ -92,8 +92,8 @@ if (! empty($_POST)) {
             </div>
             <div class="flex flex-col items-center p-4 space-y-4">
                 <?php if ($hasSuccess) {
-                    if (!array_diff($lettersInWord, $_SESSION['openLetters'])) {
-                        $_SESSION['textMsg'] = $players[$_SESSION['currentPlayer']]->name . " победил";
+                    if (!array_diff($lettersInWord, $openLetters)) {
+                        $_SESSION['textMsg'] = $players[$currentPlayer]->name . " победил";
                         $_SESSION['lock'] = true;
                     } else {
                         $_SESSION['textMsg'] = 'Такая буква есть';
@@ -105,7 +105,7 @@ if (! empty($_POST)) {
                 }
                 ?>
                 <div class="flex justify-between items-center">
-                    <span class="text-gray-700 pr-2">Очков за ход:</span> <span class="text-3xl"><?= $_SESSION['currentPoints'] ?></span>
+                    <span class="text-gray-700 pr-2">Очков за ход:</span> <span class="text-3xl"><?= $currentPoints ?></span>
                 </div>
                 <div>
                     <form method="post" action="">
